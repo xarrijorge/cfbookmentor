@@ -5,8 +5,17 @@ import Calendar from 'react-calendar'
 
 import 'react-calendar/dist/Calendar.css'
 
+const TimeDetails = ({ slots }) => (
+    <div>
+        {slots.map((slot) => (
+            <button>{slot}</button>
+        ))}
+    </div>
+)
+
 function Dates() {
     const [date, setDate] = useState(new Date())
+    const [times, setTimes] = useState([])
     const { isLoading, error, data } = useQuery('repoData', () =>
         fetch(
             'https://private-37dacc-cfcalendar.apiary-mock.com/mentors/1/agenda'
@@ -19,9 +28,9 @@ function Dates() {
     let dates = []
     let slots = {}
     const onChange = (date) => {
-        let lookupDate = dayjs(date).format('YYYY-MM-DD')
         setDate(date)
-        alert(slots[lookupDate])
+        let lookupDate = dayjs(date).format('YYYY-MM-DD')
+        if (slots[lookupDate]) setTimes(slots[lookupDate])
     }
 
     data.calendar.forEach((el) => dates.push(el.date_time.split(' ', 2)))
@@ -32,13 +41,19 @@ function Dates() {
         }
         slots[el[0]].push(el[1])
     })
-    console.log(slots)
+    console.log(times)
 
     return (
         <div>
             <h1>Book a call with your mentor, {data.mentor.name}</h1>
-            <Calendar value={date} onChange={onChange} />
-            {console.log(date)}
+            <Calendar
+                value={date}
+                onChange={onChange}
+                tileDisabled={({ date }) =>
+                    !slots[dayjs(date).format('YYYY-MM-DD')]
+                }
+            />
+            <TimeDetails slots={times} />
         </div>
     )
 }
