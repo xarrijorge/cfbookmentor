@@ -47,6 +47,8 @@ function Dates() {
         <div>
             <h1>Book a call with your mentor, {data.mentor.name}</h1>
             <Calendar
+                className='mainCal'
+                tileClassName='day'
                 value={date}
                 onChange={onChange}
                 tileDisabled={({ date }) =>
