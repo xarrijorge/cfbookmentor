@@ -1,64 +1,35 @@
-.App {
-    text-align: center;
-}
-
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
-}
-
-.App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-}
-
-.App-link {
-    color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+body {
+    /* align-items: center; */
 }
 .day:not(:disabled) {
     font-weight: bold;
+    font-family: inherit;
+    border: none;
+    /* background-color: #d9e9ff; */
+    /* margin: 3px; */
 }
 .react-calendar {
     padding: 0 5px;
+    font-family: inherit;
+    border: none;
 }
 .react-calendar__tile {
     color: #006bff;
     background: none;
     font-size: 15px;
-    border-radius: 50%;
-    width: 40px;
     height: 45px;
+    border-radius: 50%;
 }
 .react-calendar__tile--active {
     color: #fff;
+    font-size: 17px;
     background-color: #006bff;
 }
 .react-calendar__tile--active {
     pointer-events: none;
 }
 .react-calendar__tile:not(:disabled):hover {
-    background-color: #ccecf8;
+    background-color: #cccdf8;
 }
 .react-calendar__tile:disabled {
     color: grey;
@@ -70,4 +41,48 @@
 }
 abbr[title] {
     text-decoration: none;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+    visibility: hidden;
+    color: transparent;
+    pointer-events: none;
+}
+
+.mainContainer {
+    max-width: 80%;
+    height: auto;
+    min-height: 70vh;
+    align-items: center;
+    justify-content: center;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    margin: 2% auto;
+    border: 1px solid var(--text-color-level3, rgba(26, 26, 26, 0.1));
+    box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    padding-bottom: 50px;
+}
+.mainContainer > div {
+    height: 80%;
+    margin: 0;
+    padding: 0 20px;
+}
+.infoBox {
+    border-right: 1px solid #eeecec;
+}
+.timeBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.timeButton {
+    width: 150px;
+}
+
+.modal {
+    width: 300px;
+    height: 200px;
+    position: relative;
 }
