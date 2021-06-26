@@ -14,11 +14,12 @@ const TimeDetails = ({ slots, toggle, clicked }) => {
                             variant='outlined'
                             color='primary'
                             size='large'
-                            // onClick={toggle()}
-                        >
+                            onClick={toggle(index)}>
                             {`${slot.substring(0, 2)}:00`}
                         </Button>
-                        {/* {clicked && <div>confirm</div>} */}
+                        {clicked === index ? (
+                            <Button variant='contained'>confirm</Button>
+                        ) : null}
                     </>
                 )
             })}

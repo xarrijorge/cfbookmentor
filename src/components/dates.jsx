@@ -10,7 +10,7 @@ import TimeDetails from './timeDetails'
 import 'react-calendar/dist/Calendar.css'
 
 function Dates() {
-    const [clicked, setClicked] = useState(false)
+    const [clicked, setClicked] = useState(null)
     const [date, setDate] = useState(new Date())
     const [times, setTimes] = useState([])
     const { isLoading, error, data } = useQuery('repoData', () =>
@@ -40,10 +40,10 @@ function Dates() {
     })
 
     const toggle = (index) => {
-        if (clicked === index) {
-            //if clicked question is already active, then close it
-            return setClicked(null)
-        }
+        // if (clicked === index) {
+        //if clicked question is already active, then close it
+        // return setClicked(null)
+        // }
         // let name = stations[index].name;
         setClicked(index)
     }
