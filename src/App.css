@@ -67,22 +67,28 @@ abbr[title] {
 .mainContainer > div {
     height: 80%;
     margin: 0;
-    padding: 0 20px;
 }
 .infoBox {
     border-right: 1px solid #eeecec;
+    color: #223d50;
+    padding-left: 50px;
+}
+.iconBox {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+.iconBox p {
+    margin-left: 10px;
 }
 .timeBox {
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 .timeButton {
-    width: 150px;
+    width: 200px;
 }
-
-.modal {
-    width: 300px;
-    height: 200px;
-    position: relative;
+.selClass {
+    pointer-events: none;
+    width: 105px;
 }

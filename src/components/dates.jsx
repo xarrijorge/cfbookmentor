@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useQuery } from 'react-query'
+import firebase from 'firebase'
 import dayjs from 'dayjs'
 import Calendar from 'react-calendar'
 
@@ -10,14 +11,17 @@ import TimeDetails from './timeDetails'
 import 'react-calendar/dist/Calendar.css'
 
 function Dates() {
-    const [clicked, setClicked] = useState(null)
+    const [clicked, setClicked] = useState(false)
     const [date, setDate] = useState(new Date())
     const [times, setTimes] = useState([])
+    const [index, setIndex] = useState(null)
     const { isLoading, error, data } = useQuery('repoData', () =>
         fetch(
             'https://private-37dacc-cfcalendar.apiary-mock.com/mentors/1/agenda'
         ).then((res) => res.json())
     )
+
+    const database = firebase.database()
 
     if (isLoading) return 'Loading...'
 
@@ -40,29 +44,34 @@ function Dates() {
     })
 
     const toggle = (index) => {
-        // if (clicked === index) {
-        //if clicked question is already active, then close it
-        // return setClicked(null)
-        // }
+        if (clicked === index) {
+            // if clicked question is already active, then close it
+            setClicked(null)
+        }
         // let name = stations[index].name;
         setClicked(index)
+        setIndex(index)
     }
-
+    const writeData = () => {
+        let timeListRef = database.ref(date.toString())
+        let newtimeRef = timeListRef.push()
+        newtimeRef.set(times[index])
+        setClicked(null)
+    }
+    console.log(times)
     return (
         <div className='mainContainer'>
             <div className='infoBox'>
-                <img src={logo} alt='' width='100px' height='100px' />
+                <img src={logo} alt='' width='80px' height='80px' />
                 <h4>Book a call with your mentor, </h4>
                 <h3>{data.mentor.name}</h3>
                 <h5>@ Career Foundry</h5>
-                <div>
-                    <WatchLater /> <span>1 hour</span>
+                <div className='iconBox'>
+                    <WatchLater /> <p>1 hour</p>
                 </div>
-                <div>
+                <div className='iconBox'>
                     <Duo />
-                    <span>
-                        Web conferencing details provided upon confirmation.
-                    </span>
+                    <p>Web conferencing details provided upon confirmation.</p>
                 </div>
             </div>
             <div className='calBox'>
@@ -74,6 +83,8 @@ function Dates() {
                     tileDisabled={({ date }) =>
                         !slots[dayjs(date).format('YYYY-MM-DD')]
                     }
+                    minDate={new Date()}
+                    onClickDay={() => setClicked(null)}
                 />
             </div>
             <div className='timeBox'>
@@ -82,7 +93,12 @@ function Dates() {
                         ? ''
                         : dayjs(date).format('dddd, MMM DD')}
                 </h3>
-                <TimeDetails slots={times} toggle={toggle} clicked={clicked} />
+                <TimeDetails
+                    slots={times}
+                    toggle={toggle}
+                    clicked={clicked}
+                    sendUserData={writeData}
+                />
             </div>
         </div>
     )
