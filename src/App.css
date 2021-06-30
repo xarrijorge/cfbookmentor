@@ -1,6 +1,3 @@
-body {
-    /* align-items: center; */
-}
 .day:not(:disabled) {
     font-weight: bold;
     font-family: inherit;
@@ -84,11 +81,18 @@ abbr[title] {
 .timeBox {
     display: flex;
     flex-direction: column;
-}
-.timeButton {
-    width: 200px;
+    padding: 0 20px;
 }
 .selClass {
     pointer-events: none;
-    width: 105px;
+    /* width: 105px; */
+}
+
+.buttonsBox {
+    display: flex;
+    flex-direction: column;
+}
+
+.buttonsBox * {
+    margin: 10px 0;
 }

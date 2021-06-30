@@ -1,13 +1,21 @@
-import React, { useState } from 'react'
-import { Button } from '@material-ui/core'
+import React from 'react'
+import { Button, TextField } from '@material-ui/core'
 
-const TimeDetails = ({ slots, toggle, clicked, sendUserData }) => {
-    const confirmation = {}
+const TimeDetails = ({
+    slots,
+    toggle,
+    reason,
+    clicked,
+    sendUserData,
+    handleChange,
+    booked,
+}) => {
     return (
         <div className='timeBox'>
             {slots.map((slot, index) => {
+                console.log(booked)
                 return (
-                    <div>
+                    <div className='buttonsBox'>
                         <Button
                             style={
                                 clicked === index
@@ -22,6 +30,7 @@ const TimeDetails = ({ slots, toggle, clicked, sendUserData }) => {
                                           color: '#006BFF',
                                       }
                             }
+                            // disabled={booked.includes(slot) ? true : false}
                             className={`timeButton ${
                                 clicked === index ? 'selClass' : ''
                             }`}
@@ -33,19 +42,29 @@ const TimeDetails = ({ slots, toggle, clicked, sendUserData }) => {
                             onClick={() => toggle(index)}>
                             {`${slot.substring(0, 2)}:00`}
                         </Button>
+
                         {clicked === index ? (
-                            <Button
-                                style={{
-                                    margin: '0 5px',
-                                    width: '90px',
-                                    fontSize: '14px',
-                                }}
-                                onClick={() => sendUserData()}
-                                variant='contained'
-                                color='primary'
-                                size='large'>
-                                confirm
-                            </Button>
+                            <>
+                                <TextField
+                                    id='call-reason'
+                                    label='reason for call'
+                                    variant='outlined'
+                                    value={reason}
+                                    onChange={handleChange}
+                                />
+                                <Button
+                                    style={{
+                                        margin: '0 5px',
+                                        fontSize: '14px',
+                                    }}
+                                    onClick={() => sendUserData()}
+                                    variant='contained'
+                                    color='primary'
+                                    size='large'
+                                    disabled={reason ? false : true}>
+                                    confirm
+                                </Button>
+                            </>
                         ) : null}
                     </div>
                 )

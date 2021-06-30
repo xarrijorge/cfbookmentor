@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useQuery } from 'react-query'
-import firebase from 'firebase'
+import { supabase } from '../supabaseClient'
 import dayjs from 'dayjs'
 import Calendar from 'react-calendar'
 
@@ -10,18 +10,18 @@ import TimeDetails from './timeDetails'
 
 import 'react-calendar/dist/Calendar.css'
 
-function Dates() {
+function Dates({ takenSlots }) {
     const [clicked, setClicked] = useState(false)
     const [date, setDate] = useState(new Date())
     const [times, setTimes] = useState([])
     const [index, setIndex] = useState(null)
+    const [reason, setReason] = useState('')
+    const [booked, setBooked] = useState([])
     const { isLoading, error, data } = useQuery('repoData', () =>
         fetch(
             'https://private-37dacc-cfcalendar.apiary-mock.com/mentors/1/agenda'
         ).then((res) => res.json())
     )
-
-    const database = firebase.database()
 
     if (isLoading) return 'Loading...'
 
@@ -30,8 +30,19 @@ function Dates() {
     let slots = {}
     const onChange = (date) => {
         setDate(date)
+        // console.log(takenSlots)
+        disableBooked()
         let lookupDate = dayjs(date).format('YYYY-MM-DD')
         if (slots[lookupDate]) setTimes(slots[lookupDate])
+    }
+
+    const disableBooked = () => {
+        takenSlots.forEach((slot) => {
+            if (slot.date === date) {
+                setBooked([slot.slots])
+            }
+        })
+        console.log(booked)
     }
 
     data.calendar.forEach((el) => dates.push(el.date_time.split(' ', 2)))
@@ -52,13 +63,16 @@ function Dates() {
         setClicked(index)
         setIndex(index)
     }
-    const writeData = () => {
-        let timeListRef = database.ref(date.toString())
-        let newtimeRef = timeListRef.push()
-        newtimeRef.set(times[index])
-        setClicked(null)
+
+    const writeData = async () => {
+        const { data, error } = await supabase
+            .from('takenslots')
+            .insert([{ date: date, slots: [times[index]] }], { upsert: true })
     }
-    console.log(times)
+
+    const handleChange = (event) => {
+        setReason(event.target.value)
+    }
     return (
         <div className='mainContainer'>
             <div className='infoBox'>
@@ -85,6 +99,10 @@ function Dates() {
                     }
                     minDate={new Date()}
                     onClickDay={() => setClicked(null)}
+                    onActiveStartDateChange={() => {
+                        setClicked(null)
+                        setTimes([])
+                    }}
                 />
             </div>
             <div className='timeBox'>
@@ -98,6 +116,9 @@ function Dates() {
                     toggle={toggle}
                     clicked={clicked}
                     sendUserData={writeData}
+                    reason={reason}
+                    handleChange={handleChange}
+                    booked={booked}
                 />
             </div>
         </div>
