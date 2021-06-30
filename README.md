@@ -47,6 +47,6 @@ You will also see any lint errors in the console.
 
 ### Required Backend Routes
 
-GET - Get /mentors/agenda (already implemented by the provided API)
-GEt - /mentors/booked (Route that provide all times already booked for a particular mentor)
-POST - /mentors/book (save date, time and reason for a call to database)
+-   GET - Get /mentors/agenda (already implemented by the provided API)
+-   GEt - /mentors/booked (Route that provide all times already booked for a particular mentor)
+-   POST - /mentors/book (save date, time and reason for a call to database)
