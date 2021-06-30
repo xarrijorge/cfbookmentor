@@ -13,7 +13,7 @@ function App() {
         const readData = async () => {
             const { data, error } = await supabase.from('takenslots').select()
             setSlots(data)
-            // if (error) console.log(error)
+            if (error) console.log(error)
         }
         readData()
     }, [])

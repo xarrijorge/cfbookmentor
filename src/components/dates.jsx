@@ -65,6 +65,7 @@ function Dates({ takenSlots }) {
     }
 
     const writeData = async () => {
+        // eslint-disable-next-line no-unused-vars
         const { data, error } = await supabase
             .from('takenslots')
             .insert([{ date: date, slots: [times[index]] }], { upsert: true })
