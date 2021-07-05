@@ -53,7 +53,7 @@ abbr[title] {
     align-items: center;
     justify-content: center;
     display: grid;
-    gap: 20px;
+    gap: 10px;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     margin: 2% auto;
     border: 1px solid var(--text-color-level3, rgba(26, 26, 26, 0.1));

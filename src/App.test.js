@@ -1,8 +1,10 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { render, screen } from '@testing-library/react'
+import App from './App'
+import Date from './components/dates'
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
+test('renders calendar', () => {
+    const component = render(<Date />)
+    const element = document.querySelector('.react-calendar')
+
+    expect(component.container).toContain(element)
+})
